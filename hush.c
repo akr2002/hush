@@ -17,9 +17,9 @@
 void init_shell()
 {
 	clear();
-	printf("***********\n
-		   hush	   \n
-		***********\n");
+	printf("***********\n"
+		   "hush	   \n"
+		"***********\n");
 	char *username = getenv("USER");
 	printf("\nUSER is: @%s", username);	
 	printf("\n");
