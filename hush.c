@@ -232,7 +232,7 @@ int processString(char* str, char** parsed, char** parsedpipe)
 		return 1 + piped;
 }
 
-int mian()
+int main()
 {
 	char inputString[MAXCOM], *parsedArgs[MAXLIST];
 	char* parsedArgsPiped[MAXLIST];
