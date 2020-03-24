@@ -206,8 +206,8 @@ void parseSpace(char* str, char** parsed)
 
 		if (parsed[i] == NULL)
 			break;
-		if (strlen(parsed[i] == 0))
-			--i;
+		/*if (strlen(parsed[i] == 0))
+			--i;*/
 	}
 }
 
