@@ -1,4 +1,4 @@
-// SPOILER: It segfaults with SIGSEGV
+// SPOILER: It still segfaults with SIGSEGV when pipelining
 
 #include <stdio.h>
 #include <string.h>
