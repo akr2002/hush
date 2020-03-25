@@ -70,7 +70,7 @@ void execArgs(char** parsed)
 	{
 		if (execvp(parsed[0], parsed) < 0)
 		{
-			printf("\nCOuld not execute command...");
+			printf("\nCould not execute command...");
 		}
 		exit(0);
 	}
@@ -103,17 +103,43 @@ void execArgsPiped(char** parsed, char** parsedpipe)
 
 	if (p1 == 0)
 	{
-		// Child 2 is executing..
+		// Child 1 is executing..
 		// It only needs to write at thw write end
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[0]);
-		if (execvp(parsedpipe[0], parsedpipe) < 0)
+		close(pipefd[1]);
+		if (execvp(parsed[0], parsed) < 0)
 		{
-			printf("\nCould not execute command 2...");
+			printf("\nCould not execute command 1...");
 			exit(0);
 		}
-		else{
+	}
+	else
+	{
+		// Parent executing
+		p2 = fork();
+
+		if (p2 < 0)
+		{
+			printf("\nCould not fork");
+			return ;
+		}
+
+		// Child 2 is executing
+		// It only needs to read at the read end
+		if (p2 == 0)
+		{
+			close(pipefd[1]);
+			dup2(pipefd[0], STDIN_FILENO);
+			close(pipefd[0]);
+			if (execvp(parsedpipe[0], parsedpipe) < 0)
+			{
+				printf("\nCould not execute command 2...");
+				exit(0);
+			}
+		}
+		else
+		{
 			// parent executing, waiting for two children
 			wait(NULL);
 			wait(NULL);
@@ -200,14 +226,14 @@ int parsePipe(char* str, char** stripped)
 void parseSpace(char* str, char** parsed)
 {
 	int i;
-	for (i = 0; i < MAXLIST; ++i)
+	for (i = 0; i < MAXLIST; i++)
 	{
 		parsed[i] = strsep(&str, " ");
 
 		if (parsed[i] == NULL)
 			break;
-		/*if (strlen(parsed[i] == 0))
-			--i;*/
+		if (strlen(parsed[i]) == 0)
+			i--;
 	}
 }
 
@@ -221,7 +247,7 @@ int processString(char* str, char** parsed, char** parsedpipe)
 	if (piped)
 	{
 		parseSpace(stripped[0], parsed);
-		parseSpace(stripped[1], parsePipe);
+		parseSpace(stripped[1], parsedpipe);
 	}
 	else
 	{
