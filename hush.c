@@ -1,4 +1,4 @@
-// SPOILER: It still segfaults with SIGSEGV when pipelining
+// SPOILER: It works!
 
 #include <stdio.h>
 #include <string.h>
