@@ -196,7 +196,7 @@ int ownCmdHandler(char** parsed)
 			return 1;
 		case 4: 
 			username = getenv("USER");
-			printf("\nHello %s. \nPlease report errors if you find any. \nUse help to know more.\n");
+			printf("\nHello %s. \nPlease report errors if you find any. \nUse help to know more.\n", username);
 			return 1;
 		default: break;
 	}
